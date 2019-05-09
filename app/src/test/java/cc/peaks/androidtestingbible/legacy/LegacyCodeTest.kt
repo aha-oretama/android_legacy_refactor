@@ -16,7 +16,7 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class LegacyCodeTest {
   lateinit var legacyCode: LegacyCode
-  private lateinit var callback: LegacyCode.Callback<OldData>
+  private lateinit var callback: LegacyCode.Callback<NewData>
 
   @Before
   fun setUp() {
@@ -33,9 +33,9 @@ class LegacyCodeTest {
       val context = InstrumentationRegistry.getTargetContext()
       legacyCode.loadData("foo", context, callback)
 
-      argumentCaptor<OldData>().apply {
+      argumentCaptor<NewData>().apply {
           verify(callback, times(1)).onSuccess(capture())
-          assertThat(firstValue.data).isEqualTo("foo")
+          assertThat(firstValue.data).isEqualTo("converted:foo")
       }
   }
 }
