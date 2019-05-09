@@ -13,5 +13,4 @@ I apologize that all of following explanations is in Japanese.
 
 その上で、結果を示したブランチのReadMeに開き、自分の検討したことが合っているか比較してみるとよい。
 
-
-
+* [Next](https://github.com/aha-oretama/android_legacy_refactor/blob/master/01.md)
