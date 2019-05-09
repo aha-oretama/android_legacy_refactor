@@ -1,5 +1,5 @@
 # android_legacy_refactor
-To practice refactoring in accordance with [Androidテスト全書](https://peaks.cc/books/android_testing).
+To practice refactoring in accordance with [Androidテスト全書](https://peaks.cc/books/android_testing) at chaptere 3.8.
 
 I apologize that all of following explanations is in Japanese. 
 
