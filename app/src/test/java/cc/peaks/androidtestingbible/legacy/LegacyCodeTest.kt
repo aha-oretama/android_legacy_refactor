@@ -5,6 +5,7 @@ import androidx.test.InstrumentationRegistry
 import com.nhaarman.mockitokotlin2.anyOrNull
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -20,9 +21,20 @@ class LegacyCodeTest {
 
   @Before
   fun setUp() {
-      legacyCode = object: LegacyCode() {
-          override fun load(param: String?, context: Context?): OldData {
-              return OldData(param)
+      legacyCode = LegacyCode()
+      legacyCode.localDataFetcher = object : LocalDataFetcher() {
+          override fun fetch(param: String?): OldData {
+              return OldData("local:$param")
+          }
+      }
+      legacyCode.remoteDataFetcher = object : RemoteDataFetcher() {
+          override fun fetch(param: String?): OldData {
+              return OldData("remote:$param")
+          }
+      }
+      legacyCode.networkUtils = object : NetworkUtilsWrapper() {
+          override fun isOnline(context: Context?): Boolean {
+              return true
           }
       }
       callback = mock()
@@ -35,7 +47,7 @@ class LegacyCodeTest {
 
       argumentCaptor<NewData>().apply {
           verify(callback, times(1)).onSuccess(capture())
-          assertThat(firstValue.data).isEqualTo("converted:foo")
+          assertThat(firstValue.data).isEqualTo("converted:remote:foo")
       }
   }
 }
